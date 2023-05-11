@@ -31,4 +31,3 @@ class VAE(tf.keras.Model):
             "reconstruction_loss": reconstruction_loss,
             "kl_loss": kl_loss,
         }
-
