@@ -19,16 +19,16 @@ class ConvTBlock(tf.keras.layers.Layer):
 
 
 def build_decoder(latent_dim=256):
-    latent_inputs = tf.keras.layers.keras.Input(shape=(latent_dim,))
+    latent_inputs = tf.keras.layers.Input(shape=(latent_dim,))
 
-    x = tf.keras.layers.layers.Dense(4096)(latent_inputs)
-    x = tf.keras.layers.layers.Reshape((8, 8, 64))(x)
+    x = tf.keras.layers.Dense(4096)(latent_inputs)
+    x = tf.keras.layers.Reshape((8, 8, 64))(x)
     x = ConvTBlock(64, 3)(x)
     x = ConvTBlock(64, 3)(x)
     x = ConvTBlock(32, 3)(x)
     x = ConvTBlock(32, 3)(x)
     x = tf.keras.layers.Conv2DTranspose(3, 3, strides=2, padding="same")(x)
 
-    decoder_outputs = tf.keras.layers.layers.Activation("sigmoid")(x)
+    decoder_outputs = tf.keras.layers.Activation("sigmoid")(x)
 
-    return tf.keras.layers.keras.Model(latent_inputs, decoder_outputs, name="decoder")
+    return tf.keras.Model(latent_inputs, decoder_outputs, name="decoder")

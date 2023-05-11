@@ -41,4 +41,4 @@ def build_encoder(latent_dim=256):
     z_log_var = tf.keras.layers.Dense(latent_dim, name="z_log_var")(x)
     z = Sampling()([z_mean, z_log_var])
 
-    return tf.keras.keras.Model(encoder_inputs, [z_mean, z_log_var, z], name="encoder")
+    return tf.keras.Model(encoder_inputs, [z_mean, z_log_var, z], name="encoder")
