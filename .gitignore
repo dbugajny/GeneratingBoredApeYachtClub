@@ -2,3 +2,5 @@ venv/
 .idea
 data/*
 !data/.gitkeep
+build/Up
+*.egg-info/
