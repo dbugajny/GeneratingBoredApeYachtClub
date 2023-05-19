@@ -1,0 +1,14 @@
+BATCH_SIZE = 128
+TRAIN_DATASET_SIZE = 7000
+EPOCHS = 200
+STEPS_PER_EPOCH = TRAIN_DATASET_SIZE // BATCH_SIZE
+
+IMAGE_SIZE = (256, 256)
+LATENT_DIM = 256
+RECONSTRUCTION_LOSS_WEIGHT = 100
+KL_LOSS_WEIGHT = 1
+
+DATA_FILEPATH = "../data/images"
+MODEL_FILEPATH = "../data/models/vae/"
+HISTORY_FILEPATH = "../data/others/history_vae_training.csv"
+APES_INFO_FILEPATH = "../data/others/apes_info.csv"
