@@ -11,10 +11,14 @@ def build_classifier(
     x = encoder_model(inp)
     x = tf.keras.layers.Concatenate()([x[0], x[1]])
 
-    x = tf.keras.layers.Dense(128, activation="relu")(x)
-    x = tf.keras.layers.Dense(128, activation="relu")(x)
-    x = tf.keras.layers.Dense(128, activation="relu")(x)
-    x = tf.keras.layers.Dense(128, activation="relu")(x)
+    x = tf.keras.layers.Dense(256, activation="relu")(x)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    x = tf.keras.layers.Dense(256, activation="relu")(x)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    x = tf.keras.layers.Dense(512, activation="relu")(x)
+    x = tf.keras.layers.Dropout(0.25)(x)
+    x = tf.keras.layers.Dense(512, activation="relu")(x)
+    x = tf.keras.layers.Dropout(0.25)(x)
 
     outputs = []
     for n, feature_name in zip(n_unique_features, feature_names):
