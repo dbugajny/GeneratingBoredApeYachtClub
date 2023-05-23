@@ -2,7 +2,15 @@ import tensorflow as tf
 
 
 class VAE(tf.keras.Model):
-    def __init__(self, encoder, decoder, reconstruction_loss_weight=10, kl_loss_weight=1, *args, **kwargs):
+    def __init__(
+        self,
+        encoder: tf.keras.Model,
+        decoder: tf.keras.Model,
+        reconstruction_loss_weight: int | float = 100,
+        kl_loss_weight: int | float = 1,
+        *args,
+        **kwargs
+    ) -> None:
         super().__init__(*args, **kwargs)
         self.encoder = encoder
         self.decoder = decoder
@@ -10,7 +18,7 @@ class VAE(tf.keras.Model):
         self.reconstruction_loss_weight = reconstruction_loss_weight
         self.kl_loss_weight = kl_loss_weight
 
-    def train_step(self, data):
+    def train_step(self, data: tf.Tensor) -> dict[str, tf.Tensor]:
         with tf.GradientTape() as tape:
             losses = self._calculate_losses(data)
 
@@ -19,10 +27,10 @@ class VAE(tf.keras.Model):
 
         return losses
 
-    def test_step(self, data):
+    def test_step(self, data: tf.Tensor) -> dict[str, tf.Tensor]:
         return self._calculate_losses(data)
 
-    def _calculate_losses(self, data):
+    def _calculate_losses(self, data: tf.Tensor) -> dict[str, tf.Tensor]:
         z_mean, z_log_var, z = self.encoder(data)
 
         reconstruction = self.decoder(z)
@@ -41,6 +49,8 @@ class VAE(tf.keras.Model):
             "kl_loss": kl_loss,
         }
 
-    def call(self, inputs, training=None, mask=None):
+    def call(
+        self, inputs: tf.Tensor, training: bool = None, mask: None | tf.Tensor | list[None | tf.Tensor] = None
+    ) -> tf.Tensor:
         _, _, z = self.encoder(inputs)
         return self.decoder(z)

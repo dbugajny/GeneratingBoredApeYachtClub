@@ -2,7 +2,7 @@ import tensorflow as tf
 
 
 class Sampling(tf.keras.layers.Layer):
-    def call(self, inputs):
+    def call(self, inputs: tf.Tensor) -> tf.Tensor:
         z_mean, z_log_var = inputs
         batch = tf.shape(z_mean)[0]
         dim = tf.shape(z_mean)[1]
@@ -11,14 +11,14 @@ class Sampling(tf.keras.layers.Layer):
 
 
 class ConvBlock(tf.keras.layers.Layer):
-    def __init__(self, filters, kernel_size=3, dropout_rate=0.25):
+    def __init__(self, filters: int, kernel_size: int = 3, dropout_rate: float = 0.25) -> None:
         super().__init__()
         self.conv = tf.keras.layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=2, padding="same")
         self.normalization = tf.keras.layers.BatchNormalization()
         self.activation = tf.keras.layers.ReLU()
         self.dropout = tf.keras.layers.Dropout(dropout_rate)
 
-    def call(self, inputs):
+    def call(self, inputs: tf.Tensor) -> tf.Tensor:
         x = self.conv(inputs)
         x = self.normalization(x)
         x = self.activation(x)
@@ -27,7 +27,7 @@ class ConvBlock(tf.keras.layers.Layer):
         return x
 
 
-def build_encoder(latent_dim=256):
+def build_encoder(latent_dim: int = 256) -> tf.keras.Model:
     encoder_inputs = tf.keras.Input(shape=(256, 256, 3))
 
     x = ConvBlock(32, 3)(encoder_inputs)
