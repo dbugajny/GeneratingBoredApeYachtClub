@@ -30,7 +30,7 @@ def build_classifier(
 
     inp = tf.keras.layers.Input((256, 256, 3))
     x = encoder_model(inp)
-    x = tf.keras.layers.Concatenate()([x[0], x[1]])
+    x = tf.keras.layers.Concatenate()([x[0], x[1], x[2]])
 
     for dense_block_units, dense_block_dropout_rate in zip(dense_blocks_units, dense_blocks_dropout_rates):
         x = DenseBlock(dense_block_units, dense_block_dropout_rate)(x)
