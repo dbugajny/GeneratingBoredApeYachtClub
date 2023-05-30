@@ -53,6 +53,14 @@ def get_feature_dataset(
             )
             feature_datasets[feature_dataset].append(tf.data.Dataset.from_tensor_slices(feature_dummies_dataset))
 
+    if len(feature_names) == 1:
+        return (
+            feature_datasets["train"][0],
+            feature_datasets["validation"][0],
+            feature_datasets["test"][0],
+            feature_value_names,
+        )
+
     return (
         tf.data.Dataset.zip(tuple(feature_datasets["train"])),
         tf.data.Dataset.zip(tuple(feature_datasets["validation"])),

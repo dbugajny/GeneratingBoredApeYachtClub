@@ -1,4 +1,5 @@
 import tensorflow as tf
+from .blocks import ConvBlock
 
 
 class Sampling(tf.keras.layers.Layer):
@@ -10,31 +11,14 @@ class Sampling(tf.keras.layers.Layer):
         return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
 
-class ConvBlock(tf.keras.layers.Layer):
-    def __init__(self, filters: int, kernel_size: int = 3, dropout_rate: float = 0.25) -> None:
-        super().__init__()
-        self.conv = tf.keras.layers.Conv2D(filters=filters, kernel_size=kernel_size, strides=2, padding="same")
-        self.normalization = tf.keras.layers.BatchNormalization()
-        self.activation = tf.keras.layers.ReLU()
-        self.dropout = tf.keras.layers.Dropout(dropout_rate)
-
-    def call(self, inputs: tf.Tensor) -> tf.Tensor:
-        x = self.conv(inputs)
-        x = self.normalization(x)
-        x = self.activation(x)
-        x = self.dropout(x)
-
-        return x
-
-
 def build_encoder(latent_dim: int = 256) -> tf.keras.Model:
     encoder_inputs = tf.keras.Input(shape=(256, 256, 3))
 
-    x = ConvBlock(32, 3)(encoder_inputs)
-    x = ConvBlock(32, 3)(x)
-    x = ConvBlock(64, 3)(x)
-    x = ConvBlock(64, 3)(x)
-    x = ConvBlock(64, 3)(x)
+    x = ConvBlock(filters=32, kernel_size=3, strides=2, dropout_rate=0.25)(encoder_inputs)
+    x = ConvBlock(filters=32, kernel_size=3, strides=2, dropout_rate=0.25)(x)
+    x = ConvBlock(filters=64, kernel_size=3, strides=2, dropout_rate=0.25)(x)
+    x = ConvBlock(filters=64, kernel_size=3, strides=2, dropout_rate=0.25)(x)
+    x = ConvBlock(filters=64, kernel_size=3, strides=2, dropout_rate=0.25)(x)
     x = tf.keras.layers.Flatten()(x)
 
     z_mean = tf.keras.layers.Dense(latent_dim, name="z_mean")(x)
