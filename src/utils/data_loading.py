@@ -34,7 +34,7 @@ def get_image_ids(apes_info: pd.DataFrame, filepath: Path) -> tuple[list[str], l
     return all_images_ids, train_ids, validation_ids, test_ids
 
 
-def get_feature_dataset(
+def get_feature_dataset_y(
     apes_info: pd.DataFrame,
     feature_names: list[str],
 ) -> tuple[tf.data.Dataset, tf.data.Dataset, tf.data.Dataset, dict[str, list[str]]]:
@@ -66,4 +66,23 @@ def get_feature_dataset(
         tf.data.Dataset.zip(tuple(feature_datasets["validation"])),
         tf.data.Dataset.zip(tuple(feature_datasets["test"])),
         feature_value_names,
+    )
+
+
+def prepare_feature_dataset(
+    apes_info: pd.DataFrame,
+    feature_name: str,
+    x_train: tf.data.Dataset,
+    x_validation: tf.data.Dataset,
+    x_test: tf.data.Dataset,
+    batch_size: int,
+) -> tuple[tf.data.Dataset, tf.data.Dataset, tf.data.Dataset]:
+    y_train_feature, y_validation_feature, y_test_feature, feature_value_names_feature = get_feature_dataset_y(
+        apes_info, [feature_name]
+    )
+
+    return (
+        tf.data.Dataset.zip((x_train, y_train_feature)).batch(batch_size),
+        tf.data.Dataset.zip((x_validation, y_validation_feature)).batch(batch_size),
+        tf.data.Dataset.zip((x_test, y_test_feature)).batch(batch_size),
     )
