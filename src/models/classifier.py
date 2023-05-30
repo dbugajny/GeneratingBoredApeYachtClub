@@ -17,7 +17,7 @@ def build_multilabel_classifier(
     x = tf.keras.layers.Concatenate()([x[0], x[1], x[2]])
 
     for dense_block_units, dense_block_dropout_rate in zip(dense_block_units, dense_block_dropout_rates):
-        x = DenseBlock(dense_block_units, dense_block_dropout_rate)(x)
+        x = DenseBlock(units=dense_block_units, dropout_rate=dense_block_dropout_rate)(x)
 
     outputs = []
     for n, feature_name in zip(n_unique_features, feature_names):
