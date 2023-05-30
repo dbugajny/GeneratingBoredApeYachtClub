@@ -35,7 +35,7 @@ def build_single_label_classifier(
     dense_block_units: list[int],
     dense_block_dropout_rates: list[float],
     n_unique_features: int,
-):
+) -> tf.keras.Model:
     inp = tf.keras.layers.Input((256, 256, 3))
     x = tf.keras.layers.Cropping2D(cropping=image_cropping)(inp)
 
@@ -56,4 +56,4 @@ def build_single_label_classifier(
 
     x = tf.keras.layers.Dense(n_unique_features, activation="sigmoid")(x)
 
-    return tf.keras.Model(inp, [x])
+    return tf.keras.Model(inp, x)
