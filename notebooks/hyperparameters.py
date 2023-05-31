@@ -25,6 +25,12 @@ DECODER_MODEL_HYPERPARAMETERS = {
     "convt_block_dropout_rates": [0.25, 0.25, 0.25, 0.25],
 }
 
+MULTI_LABEL_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
+    "dense_block_units": [512, 1024, 2048],
+    "dense_block_dropout_rates": [0.10, 0.10, 0.10],
+}
+
+
 MOUTH_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "image_cropping": ((90, 54), (100, 60)),
     "conv_block_filters": [32, 64, 64, 32],
