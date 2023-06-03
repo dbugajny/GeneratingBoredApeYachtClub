@@ -15,14 +15,32 @@ def perform_image_shifting(
     n_shifts: int,
     batch_size: int,
 ) -> tuple[np.array, np.array, list, list]:
-    feature_1_images_ids = apes_info.loc[apes_info[feature] == feature_name_1, "image"].to_list()
-    feature_2_images_ids = apes_info.loc[apes_info[feature] == feature_name_2, "image"].to_list()
+    feature_1_images_ids_train = apes_info.loc[
+        (apes_info[feature] == feature_name_1) & (apes_info["dataset"] == "train"), "image"
+    ].to_list()
+    feature_2_images_ids_train = apes_info.loc[
+        (apes_info[feature] == feature_name_2) & (apes_info["dataset"] == "train"), "image"
+    ].to_list()
 
-    images_feature_1 = data_loading.load_specific_dataset(dataset, feature_1_images_ids, batch_size)
-    images_feature_2 = data_loading.load_specific_dataset(dataset, feature_2_images_ids, batch_size)
+    feature_1_images_ids_test = apes_info.loc[
+        (apes_info[feature] == feature_name_1) & (apes_info["dataset"] == "test"), "image"
+    ].to_list()
+    feature_2_images_ids_test = apes_info.loc[
+        (apes_info[feature] == feature_name_2) & (apes_info["dataset"] == "test"), "image"
+    ].to_list()
 
-    encoded_images_1 = encoder_model.predict(images_feature_1)
-    encoded_images_2 = encoder_model.predict(images_feature_2)
+    train_images_feature_1 = data_loading.load_specific_dataset(dataset, feature_1_images_ids_train, batch_size)
+    train_images_feature_2 = data_loading.load_specific_dataset(dataset, feature_2_images_ids_train, batch_size)
+
+    test_images_feature_1 = data_loading.load_specific_dataset(
+        dataset, np.random.choice(feature_1_images_ids_test, 1), batch_size
+    )
+    test_images_feature_2 = data_loading.load_specific_dataset(
+        dataset, np.random.choice(feature_2_images_ids_test, 1), batch_size
+    )
+
+    encoded_images_1 = encoder_model.predict(train_images_feature_1)
+    encoded_images_2 = encoder_model.predict(train_images_feature_2)
 
     mean_images_1 = tf.reduce_mean(encoded_images_1[2], axis=0)
     mean_images_2 = tf.reduce_mean(encoded_images_2[2], axis=0)
@@ -30,10 +48,10 @@ def perform_image_shifting(
     mean_difference_1 = mean_images_2 - mean_images_1
     mean_difference_2 = mean_images_1 - mean_images_2
 
-    sample_1 = list(images_feature_1.take(1))[0][0].numpy()
+    sample_1 = list(test_images_feature_1.take(1))[0][0].numpy()
     encoded_sample_1 = encoder_model(sample_1.reshape(1, 256, 256, 3))
 
-    sample_2 = list(images_feature_2.take(1))[0][0].numpy()
+    sample_2 = list(test_images_feature_2.take(1))[0][0].numpy()
     encoded_sample_2 = encoder_model(sample_2.reshape(1, 256, 256, 3))
 
     shifted_images_1 = []
