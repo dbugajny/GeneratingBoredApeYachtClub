@@ -37,7 +37,7 @@ MOUTH_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "conv_block_kernel_sizes": [3, 3],
     "conv_block_strides": [4, 4],
     "conv_block_dropout_rates": [0.1, 0.1],
-    "dense_block_units": [16, 16],
+    "dense_block_units": [8, 8],
     "dense_block_dropout_rates": [0.1, 0.1],
     "n_unique_features": 33,
 }
@@ -66,33 +66,33 @@ HAT_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
 
 EYES_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "image_cropping": ((70, 138), (106, 70)),
-    "conv_block_filters": [16, 16],
+    "conv_block_filters": [8, 8],
     "conv_block_kernel_sizes": [3, 3],
     "conv_block_strides": [4, 2],
     "conv_block_dropout_rates": [0.1, 0.1],
-    "dense_block_units": [16, 16],
+    "dense_block_units": [8, 8],
     "dense_block_dropout_rates": [0.1, 0.1],
     "n_unique_features": 23,
 }
 
 CLOTHES_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "image_cropping": ((192, 0), (37, 75)),
-    "conv_block_filters": [16, 16, 16, 16],
-    "conv_block_kernel_sizes": [3, 3, 3, 3],
-    "conv_block_strides": [2, 2, 2, 2],
-    "conv_block_dropout_rates": [0.2, 0.2, 0.2, 0.2],
-    "dense_block_units": [32, 32],
+    "conv_block_filters": [16, 8],
+    "conv_block_kernel_sizes": [3, 3],
+    "conv_block_strides": [4, 4],
+    "conv_block_dropout_rates": [0.1, 0.1],
+    "dense_block_units": [8, 8],
     "dense_block_dropout_rates": [0.1, 0.1],
     "n_unique_features": 44,
 }
 
 FUR_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "image_cropping": ((166, 10), (87, 105)),
-    "conv_block_filters": [16, 16, 16, 16],
-    "conv_block_kernel_sizes": [3, 3, 3, 3],
-    "conv_block_strides": [2, 2, 2, 2],
-    "conv_block_dropout_rates": [0.2, 0.2, 0.2, 0.2],
-    "dense_block_units": [16, 16],
+    "conv_block_filters": [16, 8],
+    "conv_block_kernel_sizes": [3, 3],
+    "conv_block_strides": [4, 4],
+    "conv_block_dropout_rates": [0.1, 0.1],
+    "dense_block_units": [8, 8],
     "dense_block_dropout_rates": [0.1, 0.1],
     "n_unique_features": 19,
 }
@@ -103,7 +103,7 @@ EARRING_CLASSIFICATION_MODEL_HYPERPARAMETERS = {
     "conv_block_kernel_sizes": [3, 3],
     "conv_block_strides": [2, 2],
     "conv_block_dropout_rates": [0.2, 0.2],
-    "dense_block_units": [16, 8],
+    "dense_block_units": [8, 8],
     "dense_block_dropout_rates": [0.1, 0.1],
     "n_unique_features": 7,
 }
